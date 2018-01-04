@@ -67,8 +67,8 @@ NSString const *JLInteractiveStartRightSide  = @"JLInteractiveStartRightSide";
         return;
     }
     
-    CGPoint v = [panGesture velocityInView:_viewController.view.superview];
-    CGPoint p = [panGesture locationInView:_viewController.view.superview];
+    CGPoint v = [panGesture velocityInView:_viewController.view.window];
+    CGPoint p = [panGesture locationInView:_viewController.view.window];
     CGFloat x = p.x;
     CGFloat y = p.y;
 
@@ -150,12 +150,24 @@ NSString const *JLInteractiveStartRightSide  = @"JLInteractiveStartRightSide";
             
             CGFloat len = fabs(p.x - _startPoint.x);
             CGFloat per = len / [self width];
+            
+            if (self.startSide == JLInteractiveStartLeftSide || self.startSide == JLInteractiveStartRightSide) {
+                per = len / [self width];
+            } else {
+                per = len / [self height];
+            }
+            
             NSLog(@"start: %f  p: %f  len: %f  width: %f  per %f",_startPoint.x,p.x,len,[self width],per);
             if (panGesture.state == UIGestureRecognizerStateChanged) {
                 [self updateInteractiveTransition:per];
             } else {
                 _userPan = NO;
-                if (per >= 0.2) {
+                
+                float value = self.effectiveValue;
+                if (self.effectiveValue <= 0 || self.effectiveValue > 1.0) {
+                    value = 0.2;
+                }
+                if (per >= value) {
                     [self finishInteractiveTransition];
                 } else {
                     [self cancelInteractiveTransition];

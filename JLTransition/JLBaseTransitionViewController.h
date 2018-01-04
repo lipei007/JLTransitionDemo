@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface JLBaseTransitionViewController : UIViewController <UIViewControllerTransitioningDelegate,UINavigationControllerDelegate>
+@interface JLBaseTransitionViewController : UIViewController <UIViewControllerTransitioningDelegate,UINavigationControllerDelegate,UITabBarControllerDelegate>
 
 - (void)present;
 - (void)dismiss;
+- (void)navigate;
 
 @end

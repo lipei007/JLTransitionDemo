@@ -12,7 +12,8 @@ typedef enum : NSUInteger {
     JLTransitionTypePresent = 0,
     JLTransitionTypeDismiss = 1,
     JLTransitionTypePush    = 2,
-    JLTransitionTypePop     = 3
+    JLTransitionTypePop     = 3,
+    JLTransitionTypeTabBar  = 4
 } JLTransitionType;
 
 

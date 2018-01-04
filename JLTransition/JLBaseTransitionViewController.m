@@ -15,6 +15,9 @@
 
 @interface JLBaseTransitionViewController ()
 
+@property (nonatomic,strong) JLInteractiveTransition *pushInteractiveTransition;
+@property (nonatomic,strong) JLInteractiveTransition *popInteractiveTransition;
+
 @property (nonatomic,strong) JLBaseTransitionAnimation *pushAnimator;
 @property (nonatomic,strong) JLBaseTransitionAnimation *popAnimator;
 
@@ -23,6 +26,11 @@
 
 @property (nonatomic,strong) JLBaseTransitionAnimation *presentAnimator;
 @property (nonatomic,strong) JLBaseTransitionAnimation *dismissAnimator;
+
+
+@property (nonatomic,strong) JLInteractiveTransition *tabBarInteractiveTransition;
+
+@property (nonatomic,strong) JLBaseTransitionAnimation *tabBarAnimator;
 
 
 @end
@@ -45,6 +53,9 @@
     // navigation
     self.pushAnimator = [[JLBaseTransitionAnimation alloc] initWithTransitionType:JLTransitionTypePush];
     self.popAnimator = [[JLBaseTransitionAnimation alloc] initWithTransitionType:JLTransitionTypePop];
+    
+    // tabBar
+    self.tabBarAnimator = [[JLBaseTransitionAnimation alloc] initWithTransitionType:JLTransitionTypeTabBar];
 }
 
 #pragma mark - View Controller LifeCyle
@@ -77,17 +88,44 @@
     // interactiveTransition初始化必须在loadView之后
     
     __weak typeof(self) weakSelf = self;
-//    self.presentInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
-//    self.presentInteractiveTransition.startSide = JLInteractiveStartLeftSide;
-//    self.presentInteractiveTransition.startInteraction = ^{
-//        [weakSelf present];
-//    };
+
+    // Presetn/Dismiss只能又一个手势存在，最后一个会覆盖前面的
     
     self.dismissInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
     self.dismissInteractiveTransition.startSide = JLInteractiveStartLeftSide;
     self.dismissInteractiveTransition.startInteraction = ^{
         [weakSelf dismiss];
     };
+    
+//    self.presentInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
+//    self.presentInteractiveTransition.startSide = JLInteractiveStartRightSide;
+//    self.presentInteractiveTransition.startInteraction = ^{
+//        [weakSelf present];
+//    };
+    
+    // Navigation
+    self.pushInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
+    self.pushInteractiveTransition.startSide = JLInteractiveStartRightSide;
+    self.pushInteractiveTransition.startInteraction = ^{
+        [weakSelf navigate];
+    };
+    
+    self.tabBarInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
+    self.tabBarInteractiveTransition.startSide = JLInteractiveStartRightSide;
+    self.tabBarInteractiveTransition.effectiveValue = 0.05;
+    self.tabBarInteractiveTransition.startInteraction = ^{
+        
+        int count = (int)weakSelf.tabBarController.childViewControllers.count;
+        int cur = (int)weakSelf.tabBarController.selectedIndex;
+        if (cur == count - 1) {
+            cur = 0;
+        } else{
+            cur++;
+        }
+        [weakSelf.tabBarController setSelectedIndex:cur];
+        
+    };
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -99,6 +137,10 @@
      */
     if (self.navigationController) {
         self.navigationController.delegate = self;
+    }
+    
+    if (self.tabBarController) {
+        self.tabBarController.delegate = self;
     }
 }
 
@@ -149,6 +191,11 @@
 #pragma mark - UINavigationControllerDelegate
 
 - (id<UIViewControllerInteractiveTransitioning>)navigationController:(UINavigationController *)navigationController interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController {
+    if (animationController == self.pushAnimator) {
+        return self.pushInteractiveTransition.isInteraction ? self.pushInteractiveTransition : nil;
+    } else if (animationController == self.popAnimator) {
+        return self.popInteractiveTransition.isInteraction ? self.popInteractiveTransition : nil;
+    }
     return nil;
 }
 
@@ -168,12 +215,27 @@
     
 }
 
+#pragma mark - UITabBarControllerDelegate
+
+- (id<UIViewControllerInteractiveTransitioning>)tabBarController:(UITabBarController *)tabBarController interactionControllerForAnimationController:(id<UIViewControllerAnimatedTransitioning>)animationController {
+    return self.tabBarInteractiveTransition.isInteraction ? self.tabBarInteractiveTransition : nil;
+}
+
+- (id<UIViewControllerAnimatedTransitioning>)tabBarController:(UITabBarController *)tabBarController animationControllerForTransitionFromViewController:(UIViewController *)fromVC toViewController:(UIViewController *)toVC {
+    return self.tabBarAnimator;
+}
+
+#pragma mark - SubClass Implementation
 
 - (void)present {
     
 }
 
 - (void)dismiss {
+    
+}
+
+- (void)navigate {
     
 }
 

@@ -96,12 +96,11 @@
 		42A04DE91FFDBDA000F8E6D6 /* JLTransition */ = {
 			isa = PBXGroup;
 			children = (
-				42A04DEB1FFDBE1C00F8E6D6 /* Interactive */,
-				42A04DEA1FFDBE0600F8E6D6 /* Presentation */,
 				42DAE2C91E84ED0E00A69D18 /* JLBaseTransitionViewController.h */,
 				42DAE2CA1E84ED0E00A69D18 /* JLBaseTransitionViewController.m */,
-				42A46AC91FCC0BAA00EFBD59 /* JLBaseTransitionAnimation.h */,
-				42A46ACA1FCC0BAA00EFBD59 /* JLBaseTransitionAnimation.m */,
+				42A04DEC1FFDD52700F8E6D6 /* Animation */,
+				42A04DEB1FFDBE1C00F8E6D6 /* Interactive */,
+				42A04DEA1FFDBE0600F8E6D6 /* Presentation */,
 			);
 			path = JLTransition;
 			sourceTree = "<group>";
@@ -122,6 +121,15 @@
 				4263FFD21FC2A9B000F220B9 /* JLInteractiveTransition.m */,
 			);
 			path = Interactive;
+			sourceTree = "<group>";
+		};
+		42A04DEC1FFDD52700F8E6D6 /* Animation */ = {
+			isa = PBXGroup;
+			children = (
+				42A46AC91FCC0BAA00EFBD59 /* JLBaseTransitionAnimation.h */,
+				42A46ACA1FCC0BAA00EFBD59 /* JLBaseTransitionAnimation.m */,
+			);
+			path = Animation;
 			sourceTree = "<group>";
 		};
 		42DAE2861E84CF5200A69D18 = {

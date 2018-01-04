@@ -44,6 +44,10 @@ static NSTimeInterval animationDuration = 0.25;
             [self startPopTransition:transitionContext];
         }
             break;
+        case JLTransitionTypeTabBar: {
+            [self startTabBarTransition:transitionContext];
+        }
+            break;
         default:
             break;
     }
@@ -168,8 +172,9 @@ static NSTimeInterval animationDuration = 0.25;
         
     } completion:^(BOOL finished) {
         
-        // 动画结束后必须向context报告VC切换完成
-        [transitionContext completeTransition:YES];
+        BOOL cancelled = [transitionContext transitionWasCancelled];
+        // 动画结束后必须向context报告VC切换完成或取消
+        [transitionContext completeTransition:!cancelled];
         
     }];
 }
@@ -195,14 +200,50 @@ static NSTimeInterval animationDuration = 0.25;
         
     } completion:^(BOOL finished) {
         
-        // dismiss时，要把fromView从container的视图层级中移除。
-        [fromView removeFromSuperview];
         
-        [transitionContext completeTransition:YES];
+//        [fromView removeFromSuperview];
+        BOOL cancelled = [transitionContext transitionWasCancelled];
+        // 动画结束后必须向context报告VC切换完成或取消
+        [transitionContext completeTransition:!cancelled];
+        
         
     }];
 }
 
+#pragma mark - TabBar
 
+- (void)startTabBarTransition:(id<UIViewControllerContextTransitioning>)transitionContext {
+    if (!transitionContext) {
+        return;
+    }
+    // 首先需要得到参与切换的两个ViewController的信息
+    UIViewController *toVC = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    //    UIViewController *fromVC = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    
+    [transitionContext containerView].backgroundColor = [UIColor clearColor];
+    // present时，将toView添加到containerView中
+    [[transitionContext containerView] addSubview:toVC.view];
+    
+    // 对于要呈现的VC，我们希望它从屏幕下方出现，因此将初始位置设置到屏幕下边缘
+    CGRect screenBounds = [UIScreen mainScreen].bounds;
+    CGRect finalFrame = [transitionContext finalFrameForViewController:toVC];
+    
+    toVC.view.frame = CGRectOffset(finalFrame, screenBounds.size.width, 0);
+    
+    // 开始动画
+    NSTimeInterval duration = [self transitionDuration:transitionContext];
+    [UIView animateWithDuration:duration delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:10 options:UIViewAnimationOptionCurveLinear animations:^{
+        
+        toVC.view.frame = finalFrame;
+        
+        
+    } completion:^(BOOL finished) {
+        
+        BOOL cancelled = [transitionContext transitionWasCancelled];
+        // 动画结束后必须向context报告VC切换完成或取消
+        [transitionContext completeTransition:!cancelled];
+        
+    }];
+}
 
 @end

@@ -63,7 +63,8 @@
     SencondViewController *scdVC = [[SencondViewController alloc] init];
     
     scdVC.preferredContentSize = CGSizeMake(300, 260);
-    [self presentViewController:scdVC animated:YES completion:nil];
+//    [self presentViewController:scdVC animated:YES completion:nil];
+    [self.navigationController pushViewController:scdVC animated:YES];
 }
 
 

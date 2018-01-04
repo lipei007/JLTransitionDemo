@@ -19,6 +19,7 @@ UIKIT_EXTERN NSString *JLInteractiveStartRightSide;
 @property (nonatomic,assign,readonly,getter=isInteraction) BOOL interaction;
 @property (nonatomic,copy) void(^startInteraction)(void);
 @property (nonatomic,copy) NSString *startSide;
+@property (nonatomic,assign) float effectiveValue;
 
 - (instancetype)initWithInteractiveViewController:(UIViewController *)viewController;
 

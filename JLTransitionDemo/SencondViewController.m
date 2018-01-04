@@ -120,7 +120,11 @@
 }
 
 - (void)dismiss {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self btnClick:nil];
+}
+
+- (void)navigate {
+    [self dismiss];
 }
 
 #pragma mark - Notification Methods
