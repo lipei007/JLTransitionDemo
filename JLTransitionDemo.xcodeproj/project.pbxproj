@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		421165301FC2780E00CDA298 /* JLPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4211652F1FC2780E00CDA298 /* JLPresentationController.m */; };
 		4263FFD31FC2A9B000F220B9 /* JLInteractiveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 4263FFD21FC2A9B000F220B9 /* JLInteractiveTransition.m */; };
+		427D595E20170AFE0022450A /* JLExpansionTransitionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 427D595D20170AFE0022450A /* JLExpansionTransitionAnimation.m */; };
 		42A46ACB1FCC0BAA00EFBD59 /* JLBaseTransitionAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 42A46ACA1FCC0BAA00EFBD59 /* JLBaseTransitionAnimation.m */; };
 		42DAE2941E84CF5200A69D18 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 42DAE2931E84CF5200A69D18 /* main.m */; };
 		42DAE2971E84CF5200A69D18 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 42DAE2961E84CF5200A69D18 /* AppDelegate.m */; };
@@ -44,6 +45,8 @@
 		4211652F1FC2780E00CDA298 /* JLPresentationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLPresentationController.m; sourceTree = "<group>"; };
 		4263FFD11FC2A9B000F220B9 /* JLInteractiveTransition.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLInteractiveTransition.h; sourceTree = "<group>"; };
 		4263FFD21FC2A9B000F220B9 /* JLInteractiveTransition.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLInteractiveTransition.m; sourceTree = "<group>"; };
+		427D595C20170AFE0022450A /* JLExpansionTransitionAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLExpansionTransitionAnimation.h; sourceTree = "<group>"; };
+		427D595D20170AFE0022450A /* JLExpansionTransitionAnimation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLExpansionTransitionAnimation.m; sourceTree = "<group>"; };
 		42A46AC91FCC0BAA00EFBD59 /* JLBaseTransitionAnimation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JLBaseTransitionAnimation.h; sourceTree = "<group>"; };
 		42A46ACA1FCC0BAA00EFBD59 /* JLBaseTransitionAnimation.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JLBaseTransitionAnimation.m; sourceTree = "<group>"; };
 		42DAE28F1E84CF5200A69D18 /* JLTransitionDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JLTransitionDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -128,6 +131,8 @@
 			children = (
 				42A46AC91FCC0BAA00EFBD59 /* JLBaseTransitionAnimation.h */,
 				42A46ACA1FCC0BAA00EFBD59 /* JLBaseTransitionAnimation.m */,
+				427D595C20170AFE0022450A /* JLExpansionTransitionAnimation.h */,
+				427D595D20170AFE0022450A /* JLExpansionTransitionAnimation.m */,
 			);
 			path = Animation;
 			sourceTree = "<group>";
@@ -334,6 +339,7 @@
 				42DAE2971E84CF5200A69D18 /* AppDelegate.m in Sources */,
 				42A46ACB1FCC0BAA00EFBD59 /* JLBaseTransitionAnimation.m in Sources */,
 				4263FFD31FC2A9B000F220B9 /* JLInteractiveTransition.m in Sources */,
+				427D595E20170AFE0022450A /* JLExpansionTransitionAnimation.m in Sources */,
 				421165301FC2780E00CDA298 /* JLPresentationController.m in Sources */,
 				42DAE2941E84CF5200A69D18 /* main.m in Sources */,
 				42DAE2CB1E84ED0E00A69D18 /* JLBaseTransitionViewController.m in Sources */,

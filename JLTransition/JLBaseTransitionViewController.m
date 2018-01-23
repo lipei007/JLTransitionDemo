@@ -12,6 +12,7 @@
 #import "JLInteractiveTransition.h"
 
 #import "JLBaseTransitionAnimation.h"
+#import "JLExpansionTransitionAnimation.h"
 
 @interface JLBaseTransitionViewController ()
 
@@ -58,6 +59,52 @@
     self.tabBarAnimator = [[JLBaseTransitionAnimation alloc] initWithTransitionType:JLTransitionTypeTabBar];
 }
 
+- (void)configInteractiveTransition {
+    
+    __weak typeof(self) weakSelf = self;
+    
+#warning  现存在手势冲突问题，present和dismiss不能同时存在。
+    
+    // present: animator 和 interaction 是调用to的代理方法，调用时刻to尚未loadView，所以此时 interaction为nil
+//    self.presentInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
+//    self.presentInteractiveTransition.startSide = JLInteractiveStartRightSide;
+//    self.presentInteractiveTransition.startInteraction = ^{
+//        NSLog(@"%@",weakSelf);
+//        [weakSelf present];
+//    };
+
+    // dismiss： animator 和 interaction 调用from的代理方法
+    self.dismissInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
+    self.dismissInteractiveTransition.startSide = JLInteractiveStartLeftSide;
+    self.dismissInteractiveTransition.startInteraction = ^{
+        NSLog(@"%@",weakSelf);
+        [weakSelf dismiss];
+    };
+
+//    // Navigation
+//    self.pushInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
+//    self.pushInteractiveTransition.startSide = JLInteractiveStartRightSide;
+//    self.pushInteractiveTransition.startInteraction = ^{
+//        [weakSelf navigate];
+//    };
+//    // tabBar
+//    self.tabBarInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
+//    self.tabBarInteractiveTransition.startSide = JLInteractiveStartRightSide;
+//    self.tabBarInteractiveTransition.effectiveValue = 0.05;
+//    self.tabBarInteractiveTransition.startInteraction = ^{
+//
+//        int count = (int)weakSelf.tabBarController.childViewControllers.count;
+//        int cur = (int)weakSelf.tabBarController.selectedIndex;
+//        if (cur == count - 1) {
+//            cur = 0;
+//        } else{
+//            cur++;
+//        }
+//        [weakSelf.tabBarController setSelectedIndex:cur];
+//
+//    };
+}
+
 #pragma mark - View Controller LifeCyle
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -85,47 +132,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    NSLog(@"view did load %@",self);
     // interactiveTransition初始化必须在loadView之后
-    
-    __weak typeof(self) weakSelf = self;
-
-    // Presetn/Dismiss只能又一个手势存在，最后一个会覆盖前面的
-    
-    self.dismissInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
-    self.dismissInteractiveTransition.startSide = JLInteractiveStartLeftSide;
-    self.dismissInteractiveTransition.startInteraction = ^{
-        [weakSelf dismiss];
-    };
-    
-//    self.presentInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
-//    self.presentInteractiveTransition.startSide = JLInteractiveStartRightSide;
-//    self.presentInteractiveTransition.startInteraction = ^{
-//        [weakSelf present];
-//    };
-    
-    // Navigation
-    self.pushInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
-    self.pushInteractiveTransition.startSide = JLInteractiveStartRightSide;
-    self.pushInteractiveTransition.startInteraction = ^{
-        [weakSelf navigate];
-    };
-    
-    self.tabBarInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
-    self.tabBarInteractiveTransition.startSide = JLInteractiveStartRightSide;
-    self.tabBarInteractiveTransition.effectiveValue = 0.05;
-    self.tabBarInteractiveTransition.startInteraction = ^{
-        
-        int count = (int)weakSelf.tabBarController.childViewControllers.count;
-        int cur = (int)weakSelf.tabBarController.selectedIndex;
-        if (cur == count - 1) {
-            cur = 0;
-        } else{
-            cur++;
-        }
-        [weakSelf.tabBarController setSelectedIndex:cur];
-        
-    };
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -156,13 +164,13 @@
 
 // present
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForPresentedController:(UIViewController *)presented presentingController:(UIViewController *)presenting sourceController:(UIViewController *)source {
-    
+    NSLog(@"present %@",self);
     return self.presentAnimator;
 }
 
 // dismiss
 - (id<UIViewControllerAnimatedTransitioning>)animationControllerForDismissedController:(UIViewController *)dismissed {
-
+    NSLog(@"dismiss %@",self);
     return self.dismissAnimator;
     
 }
@@ -172,14 +180,16 @@
 // interactive present
 
 - (id<UIViewControllerInteractiveTransitioning>)interactionControllerForPresentation:(id<UIViewControllerAnimatedTransitioning>)animator {
-
-    return self.presentInteractiveTransition.isInteraction ? self.presentInteractiveTransition : nil;
+    NSLog(@"inter present %@",self);
+    id transition =  self.presentInteractiveTransition.isInteraction ? self.presentInteractiveTransition : nil;
+    return transition;
 }
 
 // interactive dismiss
 - (id<UIViewControllerInteractiveTransitioning>)interactionControllerForDismissal:(id<UIViewControllerAnimatedTransitioning>)animator {
-
-    return self.dismissInteractiveTransition.isInteraction ? self.dismissInteractiveTransition : nil;
+    NSLog(@"inter dismiss %@",self);
+    id transition = self.dismissInteractiveTransition.isInteraction ? self.dismissInteractiveTransition : nil;
+    return transition;
 }
 
 #pragma mark - Override

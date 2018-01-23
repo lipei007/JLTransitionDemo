@@ -31,7 +31,7 @@
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setTitle:@"Back First" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor purpleColor] forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     btn.frame = CGRectMake(100, 100, 100, 60);
@@ -114,7 +114,7 @@
 - (void)present {
     SencondViewController *scdVC = [[SencondViewController alloc] init];
     
-    scdVC.preferredContentSize = CGSizeMake(200, 150);
+//    scdVC.preferredContentSize = CGSizeMake(200, 150);
     
     [self presentViewController:scdVC animated:YES completion:nil];
 }

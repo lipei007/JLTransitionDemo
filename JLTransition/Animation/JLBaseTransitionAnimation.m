@@ -92,11 +92,11 @@ static NSTimeInterval animationDuration = 0.25;
     } completion:^(BOOL finished) {
         
         // 动画结束后必须向context报告VC切换完成，否者认为你一直还在，会出现无法交互的情况
-        //        [transitionContext completeTransition:YES];
-        [transitionContext completeTransition:![transitionContext transitionWasCancelled]];
-        // 转场失败后的处理
-        if ([transitionContext transitionWasCancelled]) {
-            
+        BOOL cancelled = [transitionContext transitionWasCancelled];
+        [transitionContext completeTransition:!cancelled];
+        
+        if (cancelled) {
+            [toVC.view removeFromSuperview];
         }
         
     }];

@@ -11,7 +11,9 @@
 #import "AppDelegate.h"
 
 @interface ViewController ()
-
+{
+    UIViewController *_currentVC;
+}
 @end
 
 @implementation ViewController
@@ -19,8 +21,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
-    
-    
     
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setTitle:@"to second" forState:UIControlStateNormal];
@@ -34,7 +34,8 @@
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
     appDelegate.window.backgroundColor = [UIColor redColor];
     
-    
+
+//    [self configInteractiveTransition];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -47,24 +48,23 @@
 - (void)btnClick:(UIButton *)sender {
 
     [self present];
-    
-//    [self.navigationController pushViewController:scdVC animated:YES];
-    
-//    UIAlertController *a = [UIAlertController alertControllerWithTitle:@"123" message:@"456" preferredStyle:UIAlertControllerStyleAlert];
-//    UIAlertAction *c = [UIAlertAction actionWithTitle:@"8" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//
-//    }];
-//    [a addAction:c];
-//    [self presentViewController:a animated:YES completion:nil];
-    
+}
+
+- (void)navigate {
+    [self present];
 }
 
 - (void)present {
     SencondViewController *scdVC = [[SencondViewController alloc] init];
     
-    scdVC.preferredContentSize = CGSizeMake(300, 260);
-//    [self presentViewController:scdVC animated:YES completion:nil];
-    [self.navigationController pushViewController:scdVC animated:YES];
+//    scdVC.preferredContentSize = CGSizeMake(300, 260);
+    if (!self.navigationController) {
+        scdVC.presentingDelegate = self;
+        [scdVC configInteractiveTransition];
+        [self presentViewController:scdVC animated:YES completion:nil];
+    } else {
+        [self.navigationController pushViewController:scdVC animated:YES];
+    }
 }
 
 

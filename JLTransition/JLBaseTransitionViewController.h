@@ -10,6 +10,10 @@
 
 @interface JLBaseTransitionViewController : UIViewController <UIViewControllerTransitioningDelegate,UINavigationControllerDelegate,UITabBarControllerDelegate>
 
+@property (nonatomic,weak) JLBaseTransitionViewController *presentingDelegate;
+
+- (void)configInteractiveTransition;
+
 - (void)present;
 - (void)dismiss;
 - (void)navigate;
