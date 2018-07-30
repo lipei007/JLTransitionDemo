@@ -48,7 +48,7 @@
      */
     self.modalPresentationStyle = UIModalPresentationCustom;
 
-    self.presentAnimator = [[JLBaseTransitionAnimation alloc] initWithTransitionType:JLTransitionTypePresent];
+    self.presentAnimator = [[JLExpansionTransitionAnimation alloc] initWithTransitionType:JLTransitionTypePresent];
     self.dismissAnimator = [[JLBaseTransitionAnimation alloc] initWithTransitionType:JLTransitionTypeDismiss];
     
     // navigation

@@ -57,7 +57,7 @@
 - (void)present {
     SencondViewController *scdVC = [[SencondViewController alloc] init];
     
-//    scdVC.preferredContentSize = CGSizeMake(300, 260);
+    scdVC.preferredContentSize = CGSizeMake(300, 260);
     if (!self.navigationController) {
         scdVC.presentingDelegate = self;
         [scdVC configInteractiveTransition];

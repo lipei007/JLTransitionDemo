@@ -7,7 +7,6 @@
 //
 
 #import "JLPresentationController.h"
-#import "JLBaseTransitionViewController.h"
 
 @interface JLPresentationController ()
 
@@ -51,6 +50,7 @@
     CGSize size = self.containerView.bounds.size;
     
     JLBaseTransitionViewController *presentedVC = (JLBaseTransitionViewController *)self.presentedViewController;
+    UIViewController *presentedVC = self.presentedViewController;
     size = presentedVC.preferredContentSize;
     if (size.width <= 0 || size.height <= 0) {
         size = self.containerView.bounds.size;
