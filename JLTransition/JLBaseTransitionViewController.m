@@ -16,21 +16,22 @@
 
 @interface JLBaseTransitionViewController ()
 
+// push & pop
 @property (nonatomic,strong) JLInteractiveTransition *pushInteractiveTransition;
 @property (nonatomic,strong) JLInteractiveTransition *popInteractiveTransition;
 
 @property (nonatomic,strong) JLBaseTransitionAnimation *pushAnimator;
 @property (nonatomic,strong) JLBaseTransitionAnimation *popAnimator;
 
+// present & dismiss
 @property (nonatomic,strong) JLInteractiveTransition *presentInteractiveTransition;
 @property (nonatomic,strong) JLInteractiveTransition *dismissInteractiveTransition;
 
 @property (nonatomic,strong) JLBaseTransitionAnimation *presentAnimator;
 @property (nonatomic,strong) JLBaseTransitionAnimation *dismissAnimator;
 
-
+// tab
 @property (nonatomic,strong) JLInteractiveTransition *tabBarInteractiveTransition;
-
 @property (nonatomic,strong) JLBaseTransitionAnimation *tabBarAnimator;
 
 
@@ -48,7 +49,7 @@
      */
     self.modalPresentationStyle = UIModalPresentationCustom;
 
-    self.presentAnimator = [[JLExpansionTransitionAnimation alloc] initWithTransitionType:JLTransitionTypePresent];
+    self.presentAnimator = [[JLBaseTransitionAnimation alloc] initWithTransitionType:JLTransitionTypePresent];
     self.dismissAnimator = [[JLBaseTransitionAnimation alloc] initWithTransitionType:JLTransitionTypeDismiss];
     
     // navigation
@@ -59,6 +60,9 @@
     self.tabBarAnimator = [[JLBaseTransitionAnimation alloc] initWithTransitionType:JLTransitionTypeTabBar];
 }
 
+/**
+ * interactiveTransition初始化必须在loadView之后
+ */
 - (void)configInteractiveTransition {
     
     __weak typeof(self) weakSelf = self;
@@ -81,13 +85,15 @@
         [weakSelf dismiss];
     };
 
-//    // Navigation
+    // Navigation
 //    self.pushInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
 //    self.pushInteractiveTransition.startSide = JLInteractiveStartRightSide;
 //    self.pushInteractiveTransition.startInteraction = ^{
 //        [weakSelf navigate];
 //    };
-//    // tabBar
+
+    
+    // tabBar
 //    self.tabBarInteractiveTransition = [[JLInteractiveTransition alloc] initWithInteractiveViewController:self];
 //    self.tabBarInteractiveTransition.startSide = JLInteractiveStartRightSide;
 //    self.tabBarInteractiveTransition.effectiveValue = 0.05;
@@ -97,12 +103,13 @@
 //        int cur = (int)weakSelf.tabBarController.selectedIndex;
 //        if (cur == count - 1) {
 //            cur = 0;
-//        } else{
+//        } else {
 //            cur++;
 //        }
 //        [weakSelf.tabBarController setSelectedIndex:cur];
 //
 //    };
+    
 }
 
 #pragma mark - View Controller LifeCyle
@@ -134,6 +141,7 @@
 
     NSLog(@"view did load %@",self);
     // interactiveTransition初始化必须在loadView之后
+    [self configInteractiveTransition];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -157,6 +165,7 @@
 - (UIPresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented presentingViewController:(UIViewController *)presenting sourceViewController:(UIViewController *)source {
 
     return [[JLPresentationController alloc] initWithPresentedViewController:presented presentingViewController:presenting];
+//    return nil;
 
 }
 

@@ -59,8 +59,6 @@
     
     scdVC.preferredContentSize = CGSizeMake(300, 260);
     if (!self.navigationController) {
-        scdVC.presentingDelegate = self;
-        [scdVC configInteractiveTransition];
         [self presentViewController:scdVC animated:YES completion:nil];
     } else {
         [self.navigationController pushViewController:scdVC animated:YES];

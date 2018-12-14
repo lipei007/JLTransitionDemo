@@ -10,8 +10,9 @@
 
 @interface JLBaseTransitionViewController : UIViewController <UIViewControllerTransitioningDelegate,UINavigationControllerDelegate,UITabBarControllerDelegate>
 
-@property (nonatomic,weak) JLBaseTransitionViewController *presentingDelegate;
-
+/**
+ * interactiveTransition初始化必须在loadView之后
+ */
 - (void)configInteractiveTransition;
 
 - (void)present;
